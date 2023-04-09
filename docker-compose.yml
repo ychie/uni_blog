@@ -14,10 +14,15 @@ services:
                          - ./.env
 
         db:
-                image: "postgres:latest"
+                restart: "always"
+                image: "postgres:14.1-alpine"
                 ports:
-                        - "5433:5433"
+                        - "5433:5432"
                 volumes:
+                        - ./init.sql:/docker-entrypoint-initdb.d/init.sql
                         - ./.database:/var/lib/postgresql/data/pgdata
                 env_file:
                         - ./.env
+
+volumes:
+        .database:
